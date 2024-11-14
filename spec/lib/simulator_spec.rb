@@ -26,4 +26,12 @@ RSpec.describe Simulator do
       end
     end
   end
+
+  describe '#move' do
+    it 'moves the toy forward' do
+      simulate.place(1,2,'EAST')
+      simulate.move
+      simulate.move
+    end
+  end
 end
