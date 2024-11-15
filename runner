@@ -19,5 +19,4 @@ unless File.extname(file_argument) == ".txt"
   exit 1
 end
 
-
 FileReader.new.run(file_argument)

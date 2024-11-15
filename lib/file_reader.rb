@@ -1,4 +1,4 @@
-require_relative '../lib/operation_executor'
+require_relative 'operation_executor'
 
 class FileReader
   def run(file)

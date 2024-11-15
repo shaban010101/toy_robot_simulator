@@ -1,5 +1,7 @@
 require 'spec_helper'
 require_relative '../../lib/simulator'
+require_relative '../../lib/config'
+
 
 RSpec.describe Simulator do
   subject(:simulate) { described_class.new }
@@ -46,21 +48,21 @@ RSpec.describe Simulator do
   end
 
   describe '#left' do
-    described_class::LEFT_DIRECTION.each do |current_direction, _turn_direction|
+    Config::LEFT_DIRECTION.each do |current_direction, _turn_direction|
       it "turns the robot left" do
         simulate.place(0,0, current_direction)
         simulate.left
-        expect(simulate.report).to eq("0,0,#{described_class::LEFT_DIRECTION[current_direction]}")
+        expect(simulate.report).to eq("0,0,#{Config::LEFT_DIRECTION[current_direction]}")
       end
     end
   end
 
   describe '#right' do
-    described_class::RIGHT_DIRECTION.each do |current_direction, _turn_direction|
+    Config::RIGHT_DIRECTION.each do |current_direction, _turn_direction|
       it "turns the robot right" do
         simulate.place(0,0, current_direction)
         simulate.right
-        expect(simulate.report).to eq("0,0,#{described_class::RIGHT_DIRECTION[current_direction]}")
+        expect(simulate.report).to eq("0,0,#{Config::RIGHT_DIRECTION[current_direction]}")
       end
     end
   end

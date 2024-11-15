@@ -1,50 +1,16 @@
 require 'matrix'
+require_relative 'config'
 
 class Simulator
-  PLUS = :+
-  MINUS = :-
-  NORTH = 'NORTH'
-  SOUTH = 'SOUTH'
-  EAST = 'EAST'
-  WEST = 'WEST'
-
-  VALID_DIRECTIONS = [NORTH, SOUTH, EAST, WEST]
-  # NORTH = UP one row + 1
-  # SOUTH = DOWN one row - 1 row
-  # WEST = TO the left -1 column
-  # EAST = To the right +1 column
-  FACE_INDEX_OPERATION = {
-    NORTH => PLUS,
-    SOUTH => MINUS,
-    WEST => MINUS,
-    EAST => PLUS
-  }
-  RIGHT_DIRECTION = {
-    NORTH => EAST,
-    SOUTH => WEST,
-    EAST => SOUTH,
-    WEST => NORTH
-  }
-  LEFT_DIRECTION = {
-    NORTH => WEST,
-    SOUTH => EAST,
-    EAST => NORTH,
-    WEST => SOUTH
-  }
-  COLUMN_SIZE = 5
-  ROW_SIZE = 5
-  TOY = 'X'
-  DEFAULT_VALUE = "O"
-
   def place(x, y, facing)
-    return unless (0...COLUMN_SIZE).to_a.include?(x) && (0...ROW_SIZE).to_a.include?(x)
-    return unless VALID_DIRECTIONS.include?(facing)
+    return unless (0...Config::COLUMN_SIZE).to_a.include?(x) && (0...Config::ROW_SIZE).to_a.include?(x)
+    return unless Config::VALID_DIRECTIONS.include?(facing)
 
     if current_coordinates
       square[current_coordinates.first, current_coordinates.last] = DEFAULT_VALUE
-      square[x, y] = TOY
+      square[x, y] = Config::TOY
     else
-      square[x][y] = TOY
+      square[x][y] = Config::TOY
     end
 
     @facing = facing
@@ -60,23 +26,23 @@ class Simulator
   def move
     current_coordinates
 
-    if [NORTH, SOUTH].include?(facing)
+    if [Config::NORTH, Config::SOUTH].include?(facing)
       return unless valid_row?
-      square[column][row] = DEFAULT_VALUE
-      square[column][projected_row] = TOY
+      square[column][row] = Config::DEFAULT_VALUE
+      square[column][projected_row] = Config::TOY
     else
       return unless valid_column?
-      square[column][row] = DEFAULT_VALUE
-      square[projected_column][row] = TOY
+      square[column][row] = Config::DEFAULT_VALUE
+      square[projected_column][row] = Config::TOY
     end
   end
 
   def left
-    @facing = LEFT_DIRECTION[facing]
+    @facing = Config::LEFT_DIRECTION[facing]
   end
 
   def right
-    @facing = RIGHT_DIRECTION[facing]
+    @facing = Config::RIGHT_DIRECTION[facing]
   end
 
   private
@@ -85,18 +51,18 @@ class Simulator
 
 
   def current_coordinates
-    @column, @row = Matrix[*square].index(TOY)
+    @column, @row = Matrix[*square].index(Config::TOY)
   end
 
   def square
-    @square ||= Array.new(ROW_SIZE) { Array.new(COLUMN_SIZE).fill { DEFAULT_VALUE } }
+    @square ||= Array.new(Config::ROW_SIZE) { Array.new(Config::COLUMN_SIZE).fill { Config::DEFAULT_VALUE } }
   end
 
-  def projected_row = row.public_send(FACE_INDEX_OPERATION[facing], 1)
+  def projected_row = row.public_send(Config::FACE_INDEX_OPERATION[facing], 1)
 
-  def valid_row? = (0...ROW_SIZE).to_a.include?(projected_row)
+  def valid_row? = (0...Config::ROW_SIZE).to_a.include?(projected_row)
 
-  def projected_column = column.public_send(FACE_INDEX_OPERATION[facing], 1)
+  def projected_column = column.public_send(Config::FACE_INDEX_OPERATION[facing], 1)
 
-  def valid_column? = (0...COLUMN_SIZE).to_a.include?(projected_column)
+  def valid_column? = (0...Config::COLUMN_SIZE).to_a.include?(projected_column)
 end

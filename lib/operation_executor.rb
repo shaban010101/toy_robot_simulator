@@ -1,18 +1,11 @@
 require_relative 'simulator'
+require_relative 'config'
 
 class OperationExecutor
-  OPERATIONS = {
-    'PLACE' => :place,
-    'MOVE' => :move,
-    'LEFT' => :left,
-    'RIGHT' => :right,
-    'REPORT' => :report,
-  }.freeze
-
   def call(input)
     @input = input
 
-    operation = OPERATIONS.fetch(input.first) { return false }
+    operation = Config::OPERATIONS.fetch(input.first) { return false }
 
     send(operation) if operation
   end
