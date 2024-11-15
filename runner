@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+
+require './lib/file_reader'
+
+file_argument = ARGV[0]
+
+unless ARGV.one?
+  puts "Please provide the correct argument e.g. example.txt"
+  exit 1
+end
+
+unless File.exist?(file_argument)
+  puts "Please enter a file which exists"
+  exit 1
+end
+
+unless File.extname(file_argument) == ".txt"
+  puts "Please only use a text file"
+  exit 1
+end
+
+
+FileReader.new.run(file_argument)
