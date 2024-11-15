@@ -3,33 +3,33 @@ require 'matrix'
 class Simulator
   PLUS = :+
   MINUS = :-
-  VALID_DIRECTIONS = [
-    'NORTH',
-    'SOUTH',
-    'EAST',
-    'WEST'
-  ]
+  NORTH = 'NORTH'
+  SOUTH = 'SOUTH'
+  EAST = 'EAST'
+  WEST = 'WEST'
+
+  VALID_DIRECTIONS = [NORTH, SOUTH, EAST, WEST]
   # NORTH = UP one row + 1
   # SOUTH = DOWN one row - 1 row
   # WEST = TO the left -1 column
   # EAST = To the right +1 column
   FACE_INDEX_OPERATION = {
-    'NORTH' => PLUS,
-    'SOUTH' => MINUS,
-    'WEST' => PLUS,
-    'EAST' => MINUS
+    NORTH => PLUS,
+    SOUTH => MINUS,
+    WEST => MINUS,
+    EAST => PLUS
   }
   RIGHT_DIRECTION = {
-    'NORTH' => 'EAST',
-    'SOUTH' => 'WEST',
-    'EAST' => 'SOUTH',
-    'WEST' => 'NORTH'
+    NORTH => EAST,
+    SOUTH => WEST,
+    EAST => SOUTH,
+    WEST => NORTH
   }
   LEFT_DIRECTION = {
-    'NORTH' => 'WEST',
-    'SOUTH' => 'EAST',
-    'EAST' => 'NORTH',
-    'WEST' => 'SOUTH'
+    NORTH => WEST,
+    SOUTH => EAST,
+    EAST => NORTH,
+    WEST => SOUTH
   }
   COLUMN_SIZE = 5
   ROW_SIZE = 5
@@ -58,20 +58,14 @@ class Simulator
   end
 
   def move
-    # facing
-    move_row_value = {
-      'NORTH' => PLUS,
-      'SOUTH' => MINUS
-    }
-
     current_coordinates
 
-    if move_row_value.include?(facing)
-      return unless valid_row
+    if [NORTH, SOUTH].include?(facing)
+      return unless valid_row?
       square[column][row] = DEFAULT_VALUE
       square[column][projected_row] = TOY
     else
-      return unless valid_column
+      return unless valid_column?
       square[column][row] = DEFAULT_VALUE
       square[projected_column][row] = TOY
     end
@@ -100,9 +94,9 @@ class Simulator
 
   def projected_row = row.public_send(FACE_INDEX_OPERATION[facing], 1)
 
-  def valid_row = (0...ROW_SIZE).to_a.include?(projected_row)
+  def valid_row? = (0...ROW_SIZE).to_a.include?(projected_row)
 
   def projected_column = column.public_send(FACE_INDEX_OPERATION[facing], 1)
 
-  def valid_row = (0...COLUMN_SIZE).to_a.include?(projected_column)
+  def valid_column? = (0...COLUMN_SIZE).to_a.include?(projected_column)
 end
