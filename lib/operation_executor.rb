@@ -17,10 +17,6 @@ class OperationExecutor
     send(operation) if operation
   end
 
-  private
-
-  attr_reader :input
-
   def place
     if input[1].nil?
       puts "Please provide an input with X,Y,F"
@@ -31,6 +27,7 @@ class OperationExecutor
     x, y, facing = input_commands
     @simulator = Simulator.new
     @simulator.place(x.to_i, y.to_i, facing)
+    return true
   end
 
   def move
@@ -58,7 +55,7 @@ class OperationExecutor
   end
 
   private
-  attr_reader :simulator
+  attr_reader :simulator, :input
 
   def execute_operation
     if defined?(@simulator)
