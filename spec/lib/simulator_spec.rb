@@ -44,4 +44,24 @@ RSpec.describe Simulator do
       end
     end
   end
+
+  describe '#left' do
+    described_class::LEFT_DIRECTION.each do |current_direction, _turn_direction|
+      it "turns the robot left" do
+        simulate.place(0,0, current_direction)
+        simulate.left
+        expect(simulate.report).to eq("0,0,#{described_class::LEFT_DIRECTION[current_direction]}")
+      end
+    end
+  end
+
+  describe '#right' do
+    described_class::RIGHT_DIRECTION.each do |current_direction, _turn_direction|
+      it "turns the robot right" do
+        simulate.place(0,0, current_direction)
+        simulate.right
+        expect(simulate.report).to eq("0,0,#{described_class::RIGHT_DIRECTION[current_direction]}")
+      end
+    end
+  end
 end

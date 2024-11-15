@@ -19,6 +19,18 @@ class Simulator
     'WEST' => PLUS,
     'EAST' => MINUS
   }
+  RIGHT_DIRECTION = {
+    'NORTH' => 'EAST',
+    'SOUTH' => 'WEST',
+    'EAST' => 'SOUTH',
+    'WEST' => 'NORTH'
+  }
+  LEFT_DIRECTION = {
+    'NORTH' => 'WEST',
+    'SOUTH' => 'EAST',
+    'EAST' => 'NORTH',
+    'WEST' => 'SOUTH'
+  }
   COLUMN_SIZE = 5
   ROW_SIZE = 5
   TOY = 'X'
@@ -63,6 +75,14 @@ class Simulator
       square[column][row] = DEFAULT_VALUE
       square[projected_column][row] = TOY
     end
+  end
+
+  def left
+    @facing = LEFT_DIRECTION[facing]
+  end
+
+  def right
+    @facing = RIGHT_DIRECTION[facing]
   end
 
   private
