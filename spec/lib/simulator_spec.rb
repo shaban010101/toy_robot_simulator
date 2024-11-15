@@ -28,10 +28,20 @@ RSpec.describe Simulator do
   end
 
   describe '#move' do
-    it 'moves the toy forward' do
-      simulate.place(1,2,'EAST')
-      simulate.move
-      simulate.move
+    context "when the toy can move" do
+      it 'moves the toy forward' do
+        simulate.place(0,0,'NORTH')
+        simulate.move
+        expect(simulate.report).to eq('0,1,NORTH')
+      end
+    end
+
+    context "when the toy cannot move" do
+      it 'does not move the toy forward' do
+        simulate.place(0,0,'SOUTH')
+        simulate.move
+        expect(simulate.report).to eq('0,0,SOUTH')
+      end
     end
   end
 end
