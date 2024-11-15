@@ -52,7 +52,7 @@ class Simulator
 
   def report
     current_coordinates
-    return "Please enter the correct input values for X, Y and Facing" if (@facing == nil || @column == nil && @row == nil)
+    return if (@facing == nil || @column == nil && @row == nil)
 
     "#{@column},#{@row},#{@facing}"
   end

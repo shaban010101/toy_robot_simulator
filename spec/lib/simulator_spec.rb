@@ -15,14 +15,14 @@ RSpec.describe Simulator do
     context "when the x and y axis values do not exist" do
       it "does not move the robot to a place" do
         simulate.place(5,5,'NORTH')
-        expect(simulate.report).to eq("Please enter the correct input values for X, Y and Facing")
+        expect(simulate.report).to eq(nil)
       end
     end
 
     context "when the facing value does not exist" do
       it "does not move the robot to a place" do
         simulate.place(0,0,'NORTHS')
-        expect(simulate.report).to eq("Please enter the correct input values for X, Y and Facing")
+        expect(simulate.report).to eq(nil)
       end
     end
   end
