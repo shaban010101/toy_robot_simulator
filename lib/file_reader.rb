@@ -25,7 +25,7 @@ class FileReader
   attr_reader :file
 
   def valid_file?
-    unless File.exist?(file)
+    unless file && File.exist?(file)
       puts 'Please enter a file which exists'
       return false
     end
@@ -38,7 +38,5 @@ class FileReader
     true
   end
 
-  def operation_executor
-    @operation_executor ||= OperationExecutor.new
-  end
+  def operation_executor = @operation_executor ||= OperationExecutor.new
 end

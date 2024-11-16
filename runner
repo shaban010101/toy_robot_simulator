@@ -17,6 +17,6 @@ OptionParser.new do |opts|
     puts opts
     exit
   end
-end.parse!
+end.parse(ARGV)
 
 FileReader.new(options[:file]).run
