@@ -19,14 +19,4 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-unless File.exist?(options[:file])
-  puts "Please enter a file which exists"
-  exit 1
-end
-
-unless File.extname(options[:file]) == ".txt"
-  puts "Please only use a text file"
-  exit 1
-end
-
-FileReader.new.run(options[:file])
+FileReader.new(options[:file]).run

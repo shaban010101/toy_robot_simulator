@@ -9,12 +9,13 @@ class Simulator
     return unless Config::VALID_DIRECTIONS.include?(facing)
 
     if current_coordinates
-      square[current_coordinates.first, current_coordinates.last] = DEFAULT_VALUE
+      square[current_coordinates.first][current_coordinates.last] = Config::DEFAULT_VALUE
       square[x][y] = Config::TOY
     else
       square[x][y] = Config::TOY
     end
 
+    @placed = true
     @facing = facing
   end
 
@@ -28,6 +29,7 @@ class Simulator
 
   # moves the toy robot forward on the square in the direction it is facing
   def move
+    return unless @placed
     current_coordinates
 
     if [Config::NORTH, Config::SOUTH].include?(facing)
@@ -43,18 +45,18 @@ class Simulator
 
   # turns the direction of the robot is facing to the left
   def left
+    return unless @placed
     @facing = Config::LEFT_DIRECTION[facing]
   end
 
   # turns the direction of the robot is facing to the right
   def right
+    return unless @placed
     @facing = Config::RIGHT_DIRECTION[facing]
   end
 
   private
   attr_reader :facing, :x, :y
-  attr_writer :facing, :square, :x, :y
-
 
   def current_coordinates
     @x, @y = Matrix[*square].index(Config::TOY)

@@ -8,8 +8,7 @@ class OperationExecutor
     @input = input
 
     operation = Config::OPERATIONS.fetch(input.first) { return false }
-
-    send(operation) if operation
+    public_send(operation) if operation
   end
 
   # places the robot on the simulator
@@ -21,7 +20,7 @@ class OperationExecutor
 
     input_commands = input[1].split(',')
     x, y, facing = input_commands
-    @simulator = Simulator.new
+    @simulator ||= Simulator.new
     @simulator.place(x.to_i, y.to_i, facing)
     return true
   end
@@ -50,7 +49,7 @@ class OperationExecutor
   # Reports the current coordinates the robot is facing on the simulator
   def report
     execute_operation do
-      puts simulator.report
+      puts simulator.report unless simulator.report.nil?
     end
   end
 
