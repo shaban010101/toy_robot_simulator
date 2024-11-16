@@ -1,22 +1,32 @@
 #!/usr/bin/env ruby
 
 require './lib/file_reader'
+require 'optparse'
 
-file_argument = ARGV[0]
+require 'optparse'
+options = {}
 
-unless ARGV.one?
-  puts "Please provide the correct argument e.g. example.txt"
-  exit 1
-end
+OptionParser.new do |opts|
+  opts.banner = "Usage: example.rb [options]"
 
-unless File.exist?(file_argument)
+  opts.on("-f", "--file FILE", "File to process -f/--file test.txt") do |file|
+    options[:file] = file
+  end
+
+  opts.on("-h", "--help", "Prints this help") do
+    puts opts
+    exit
+  end
+end.parse!
+
+unless File.exist?(options[:file])
   puts "Please enter a file which exists"
   exit 1
 end
 
-unless File.extname(file_argument) == ".txt"
+unless File.extname(options[:file]) == ".txt"
   puts "Please only use a text file"
   exit 1
 end
 
-FileReader.new.run(file_argument)
+FileReader.new.run(options[:file])

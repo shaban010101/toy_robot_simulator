@@ -5,7 +5,7 @@ require_relative 'config'
 class Simulator
   # Places the robot on a specified square on the board using x,y coordinates and a direction to face
   def place(x, y, facing)
-    return unless (0...Config::COLUMN_SIZE).to_a.include?(x) && (0...Config::ROW_SIZE).to_a.include?(x)
+    return unless (0...Config::COLUMN_SIZE).to_a.include?(x) && (0...Config::ROW_SIZE).to_a.include?(y)
     return unless Config::VALID_DIRECTIONS.include?(facing)
 
     if current_coordinates
