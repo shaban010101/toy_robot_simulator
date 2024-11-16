@@ -5,12 +5,12 @@ require_relative 'config'
 class Simulator
   # Places the robot on a specified square on the board using x,y coordinates and a direction to face
   def place(x, y, facing)
-    return unless (0...Config::COLUMN_SIZE).to_a.include?(x) && (0...Config::ROW_SIZE).to_a.include?(y)
+    return unless (0...Config::X_SIZE).to_a.include?(x) && (0...Config::Y_SIZE).to_a.include?(y)
     return unless Config::VALID_DIRECTIONS.include?(facing)
 
     if current_coordinates
       square[current_coordinates.first, current_coordinates.last] = DEFAULT_VALUE
-      square[x, y] = Config::TOY
+      square[x][y] = Config::TOY
     else
       square[x][y] = Config::TOY
     end
@@ -21,9 +21,9 @@ class Simulator
   # outputs the toy robots current coordinates and where it is facing e.g. "0,0,NORTH"
   def report
     current_coordinates
-    return if (@facing == nil || @column == nil && @row == nil)
+    return if (@facing == nil || @x == nil && @y== nil)
 
-    "#{@column},#{@row},#{@facing}"
+    "#{@x},#{@y},#{@facing}"
   end
 
   # moves the toy robot forward on the square in the direction it is facing
@@ -31,13 +31,13 @@ class Simulator
     current_coordinates
 
     if [Config::NORTH, Config::SOUTH].include?(facing)
-      return unless valid_row?
-      square[column][row] = Config::DEFAULT_VALUE
-      square[column][projected_row] = Config::TOY
+      return unless valid_y_move?
+      square[x][y] = Config::DEFAULT_VALUE
+      square[x][projected_y] = Config::TOY
     else
-      return unless valid_column?
-      square[column][row] = Config::DEFAULT_VALUE
-      square[projected_column][row] = Config::TOY
+      return unless valid_x_move?
+      square[x][y] = Config::DEFAULT_VALUE
+      square[projected_x][y] = Config::TOY
     end
   end
 
@@ -52,23 +52,23 @@ class Simulator
   end
 
   private
-  attr_reader :column, :row, :facing
-  attr_writer :square,:column, :row, :facing
+  attr_reader :facing, :x, :y
+  attr_writer :facing, :square, :x, :y
 
 
   def current_coordinates
-    @column, @row = Matrix[*square].index(Config::TOY)
+    @x, @y = Matrix[*square].index(Config::TOY)
   end
 
   def square
-    @square ||= Array.new(Config::ROW_SIZE) { Array.new(Config::COLUMN_SIZE).fill { Config::DEFAULT_VALUE } }
+    @square ||= Array.new(Config::X_SIZE) { Array.new(Config::Y_SIZE).fill { Config::DEFAULT_VALUE } }
   end
 
-  def projected_row = row.public_send(Config::FACE_INDEX_OPERATION[facing], 1)
+  def projected_x = x.public_send(Config::FACE_INDEX_OPERATION[facing], 1)
 
-  def valid_row? = (0...Config::ROW_SIZE).to_a.include?(projected_row)
+  def valid_x_move? = (0...Config::X_SIZE).to_a.include?(projected_x)
 
-  def projected_column = column.public_send(Config::FACE_INDEX_OPERATION[facing], 1)
+  def projected_y = y.public_send(Config::FACE_INDEX_OPERATION[facing], 1)
 
-  def valid_column? = (0...Config::COLUMN_SIZE).to_a.include?(projected_column)
+  def valid_y_move? = (0...Config::Y_SIZE).to_a.include?(projected_y)
 end

@@ -31,8 +31,8 @@ class Config
     EAST => NORTH,
     WEST => SOUTH
   }
-  COLUMN_SIZE = 5
-  ROW_SIZE = 5
+  X_SIZE = 5
+  Y_SIZE = 5
   TOY = 'X'
   DEFAULT_VALUE = "O"
 
