@@ -9,14 +9,14 @@ RSpec.describe Simulator do
 
   describe '#place' do
     context 'when the x and y axis exist' do
-      it 'moves the robot to a place' do
+      it 'puts the robot in a place' do
         simulate.place(0, 0, 'NORTH')
         expect(simulate.report).to eq('0,0,NORTH')
       end
     end
 
     context 'when the x and y axis values do not exist' do
-      it 'does not move the robot to a place' do
+      it 'does not move the robot' do
         simulate.place(5, 5, 'NORTH')
         expect(simulate.report).to eq(nil)
       end

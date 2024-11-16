@@ -44,7 +44,7 @@ RSpec.describe OperationExecutor do
       subject.call(['PLACE', '0,0,NORTH'])
     end
 
-    it 'places the robot' do
+    it 'moves the robot' do
       expect(simulator).to receive(:move)
 
       subject.call(['MOVE'])
@@ -77,7 +77,7 @@ RSpec.describe OperationExecutor do
       subject.call(['PLACE', '0,0,NORTH'])
     end
 
-    it 'places the robot' do
+    it 'turns the robot left' do
       expect(simulator).to receive(:left)
 
       subject.call(['LEFT'])
@@ -93,7 +93,7 @@ RSpec.describe OperationExecutor do
       subject.call(['PLACE', '0,0,NORTH'])
     end
 
-    it 'report where the robot is' do
+    it 'reports where the robot is' do
       expect(simulator).to receive(:report)
 
       subject.call(['REPORT'])
