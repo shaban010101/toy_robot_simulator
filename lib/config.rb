@@ -1,3 +1,5 @@
+# Config contains all the config of the Simulator in one place
+
 class Config
   PLUS = :+
   MINUS = :-

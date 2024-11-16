@@ -1,7 +1,9 @@
 require 'matrix'
 require_relative 'config'
 
+# Simulates a toy robots movement on a square
 class Simulator
+  # Places the robot on a specified square on the board using x,y coordinates and a direction to face
   def place(x, y, facing)
     return unless (0...Config::COLUMN_SIZE).to_a.include?(x) && (0...Config::ROW_SIZE).to_a.include?(x)
     return unless Config::VALID_DIRECTIONS.include?(facing)
@@ -16,6 +18,7 @@ class Simulator
     @facing = facing
   end
 
+  # outputs the toy robots current coordinates and where it is facing e.g. "0,0,NORTH"
   def report
     current_coordinates
     return if (@facing == nil || @column == nil && @row == nil)
@@ -23,6 +26,7 @@ class Simulator
     "#{@column},#{@row},#{@facing}"
   end
 
+  # moves the toy robot forward on the square in the direction it is facing
   def move
     current_coordinates
 
@@ -37,10 +41,12 @@ class Simulator
     end
   end
 
+  # turns the direction of the robot is facing to the left
   def left
     @facing = Config::LEFT_DIRECTION[facing]
   end
 
+  # turns the direction of the robot is facing to the right
   def right
     @facing = Config::RIGHT_DIRECTION[facing]
   end
