@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'simulator'
 require_relative 'config'
 
@@ -14,7 +16,7 @@ class OperationExecutor
   # places the robot on the simulator
   def place
     if input[1].nil?
-      puts "Please provide an input with X,Y,F"
+      puts 'Please provide an input with X,Y,F'
       return true
     end
 
@@ -22,7 +24,7 @@ class OperationExecutor
     x, y, facing = input_commands
     @simulator ||= Simulator.new
     @simulator.place(x.to_i, y.to_i, facing)
-    return true
+    true
   end
 
   # moves the robot on the simulator
@@ -54,15 +56,15 @@ class OperationExecutor
   end
 
   private
+
   attr_reader :simulator, :input
 
   def execute_operation
     if defined?(@simulator)
       yield
-      true
     else
       puts 'Please place the robot first'
-      true
     end
+    true
   end
 end

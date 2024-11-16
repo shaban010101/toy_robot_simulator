@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'matrix'
 require_relative 'config'
 
@@ -8,12 +10,8 @@ class Simulator
     return unless (0...Config::X_SIZE).to_a.include?(x) && (0...Config::Y_SIZE).to_a.include?(y)
     return unless Config::VALID_DIRECTIONS.include?(facing)
 
-    if current_coordinates
-      square[current_coordinates.first][current_coordinates.last] = Config::DEFAULT_VALUE
-      square[x][y] = Config::TOY
-    else
-      square[x][y] = Config::TOY
-    end
+    square[current_coordinates.first][current_coordinates.last] = Config::DEFAULT_VALUE if current_coordinates
+    square[x][y] = Config::TOY
 
     @placed = true
     @facing = facing
@@ -22,7 +20,7 @@ class Simulator
   # outputs the toy robots current coordinates and where it is facing e.g. "0,0,NORTH"
   def report
     current_coordinates
-    return if (@facing == nil || @x == nil && @y== nil)
+    return if @facing.nil? || (@x.nil? && @y.nil?)
 
     "#{@x},#{@y},#{@facing}"
   end
@@ -30,14 +28,17 @@ class Simulator
   # moves the toy robot forward on the square in the direction it is facing
   def move
     return unless @placed
+
     current_coordinates
 
     if [Config::NORTH, Config::SOUTH].include?(facing)
       return unless valid_y_move?
+
       square[x][y] = Config::DEFAULT_VALUE
       square[x][projected_y] = Config::TOY
     else
       return unless valid_x_move?
+
       square[x][y] = Config::DEFAULT_VALUE
       square[projected_x][y] = Config::TOY
     end
@@ -46,16 +47,19 @@ class Simulator
   # turns the direction of the robot is facing to the left
   def left
     return unless @placed
+
     @facing = Config::LEFT_DIRECTION[facing]
   end
 
   # turns the direction of the robot is facing to the right
   def right
     return unless @placed
+
     @facing = Config::RIGHT_DIRECTION[facing]
   end
 
   private
+
   attr_reader :facing, :x, :y
 
   def current_coordinates
