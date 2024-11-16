@@ -6,17 +6,20 @@ require 'optparse'
 
 options = {}
 
-OptionParser.new do |opts|
-  opts.banner = 'Usage: example.rb [options]'
+begin
+  OptionParser.new do |opts|
+    opts.banner = 'Usage: example.rb [options]'
 
-  opts.on('-f', '--file FILE', 'File to process -f/--file test.txt') do |file|
-    options[:file] = file
-  end
+    opts.on('-f', '--file FILE', 'File to process -f/--file test.txt') do |file|
+      options[:file] = file
+    end
 
-  opts.on('-h', '--help', 'Prints this help') do
-    puts opts
-    exit
-  end
-end.parse(ARGV)
-
-FileReader.new(options[:file]).run
+    opts.on('-h', '--help', 'Prints this help') do
+      puts opts
+      exit
+    end
+  end.parse(ARGV)
+  FileReader.new(options[:file]).run
+rescue OptionParser::MissingArgument, OptionParser::InvalidOption
+  puts 'Please check the arguments and options you inputted'
+end
