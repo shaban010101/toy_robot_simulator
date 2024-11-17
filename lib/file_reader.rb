@@ -10,15 +10,16 @@ class FileReader
     @output = output ||= $stdout
   end
 
-  # Uses a text file as input and read its lines executing commands it knows
+  # Uses a text file as input and reads its lines executing commands it knows
   def run
     return unless valid_file?
 
     f = File.foreach(file)
     f.each_entry.with_index do |line, index|
+      line_number = index + 1
       inputs = line.split
       unless operation_executor.call(inputs)
-        message = "Unrecognised command '#{inputs.join(" ")}' on line #{index+1}"
+        message = "Unrecognised command '#{inputs.join(" ")}' on line #{line_number}"
         @output.puts(message)
       end
     end
