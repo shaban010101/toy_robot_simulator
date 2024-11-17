@@ -4,7 +4,8 @@ require 'spec_helper'
 require 'file_reader'
 
 RSpec.describe FileReader do
-  subject(:file_reader) { described_class.new(file) }
+  subject(:file_reader) { described_class.new(file, output: output) }
+  let(:output) { StringIO.new }
 
   describe '#run' do
     let(:operation_executor) { instance_double(OperationExecutor) }
@@ -32,11 +33,11 @@ RSpec.describe FileReader do
 
         before do
           allow(operation_executor).to receive(:call).with(['PLACES', '0,0,NORTH']).and_return(false)
-          allow($stdout).to receive(:puts).with('unrecognised command: PLACES 0,0,NORTH on line 1')
+          allow(output).to receive(:puts).with('unrecognised command: PLACES 0,0,NORTH on line 1')
         end
 
         it 'attempts to perform the operation but returns an error' do
-          expect($stdout).to receive(:puts).with("Unrecognised command 'PLACES 0,0,NORTH' on line 1")
+          expect(output).to receive(:puts).with("Unrecognised command 'PLACES 0,0,NORTH' on line 1")
           file_reader.run
         end
       end
@@ -53,7 +54,7 @@ RSpec.describe FileReader do
         end
 
         it 'outputs an error message' do
-          expect($stdout).to receive(:puts).with('Please only use a text file')
+          expect(output).to receive(:puts).with('Please only use a text file')
           file_reader.run
         end
       end
@@ -68,7 +69,7 @@ RSpec.describe FileReader do
         end
 
         it 'outputs an error message' do
-          expect($stdout).to receive(:puts).with('Please enter a file which exists')
+          expect(output).to receive(:puts).with('Please enter a file which exists')
           file_reader.run
         end
       end

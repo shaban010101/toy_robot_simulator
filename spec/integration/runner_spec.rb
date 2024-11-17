@@ -10,8 +10,11 @@ RSpec.describe 'Runner' do
           0,1,NORTH
           0,0,WEST
           3,3,NORTH
+          4,4,NORTH
+          2,3,WEST
+          1,2,WEST
         OUTPUT
-        expect(`./runner -f test.txt`).to eq(output)
+        expect(`./runner -f spec/fixtures/test.txt`).to eq(output)
       end
     end
     context 'when the file cannot be opened' do

@@ -4,8 +4,9 @@ require_relative 'operation_executor'
 
 # The FileReader reads a file and executes commands based on them
 class FileReader
-  def initialize(file)
+  def initialize(file, output: nil)
     @file = file
+    @output = output ||= $stdout
   end
 
   # Uses a text file as input and read its lines executing commands it knows
@@ -15,8 +16,10 @@ class FileReader
     f = File.foreach(file)
     f.each_entry.with_index do |line, index|
       inputs = line.split
-
-      puts "Unrecognised command '#{inputs.join(" ")}' on line #{index+1}" unless operation_executor.call(inputs)
+      unless operation_executor.call(inputs)
+        message = "Unrecognised command '#{inputs.join(" ")}' on line #{index+1}"
+        @output.puts(message)
+      end
     end
   end
 
@@ -26,12 +29,12 @@ class FileReader
 
   def valid_file?
     unless file && File.exist?(file)
-      puts 'Please enter a file which exists'
+      @output.puts('Please enter a file which exists')
       return false
     end
 
     unless File.extname(file) == '.txt'
-      puts 'Please only use a text file'
+      @output.puts('Please only use a text file')
       return false
     end
 
