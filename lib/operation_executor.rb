@@ -15,12 +15,10 @@ class OperationExecutor
 
   # places the robot on the simulator
   def place
-    if input[1].nil?
-      puts 'Please provide an input with X,Y,F'
-      return true
-    end
+    command = input[1]
+    return true if command.nil?
 
-    input_commands = input[1].split(',')
+    input_commands = command.split(',')
     x, y, facing = input_commands
     @simulator ||= Simulator.new
     @simulator.place(x.to_i, y.to_i, facing)

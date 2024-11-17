@@ -36,7 +36,7 @@ RSpec.describe FileReader do
         end
 
         it 'attempts to perform the operation but returns an error' do
-          expect($stdout).to receive(:puts).with('unrecognised command: PLACES 0,0,NORTH on line 1')
+          expect($stdout).to receive(:puts).with("Unrecognised command 'PLACES 0,0,NORTH' on line 1")
           file_reader.run
         end
       end

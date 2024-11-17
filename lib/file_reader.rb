@@ -16,7 +16,7 @@ class FileReader
     f.each_entry.with_index do |line, index|
       inputs = line.split
 
-      puts "unrecognised command: #{line} on line #{index + 1}" unless operation_executor.call(inputs)
+      puts "Unrecognised command '#{inputs.join(" ")}' on line #{index+1}" unless operation_executor.call(inputs)
     end
   end
 
