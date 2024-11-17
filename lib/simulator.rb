@@ -20,7 +20,7 @@ class Simulator
   # outputs the toy robots current coordinates and where it is facing e.g. "0,0,NORTH"
   def report
     current_coordinates
-    return if @facing.nil? || (@x.nil? && @y.nil?)
+    return if @facing.nil? || @x.nil? || @y.nil?
 
     "#{@x},#{@y},#{@facing}"
   end

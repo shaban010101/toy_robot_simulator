@@ -26,7 +26,7 @@ RSpec.describe 'Runner' do
 
       context 'when the file is not a text file' do
         it 'outputs an error message' do
-          expect(`./runner -f sample.csv`).to eq("Please only use a text file\n")
+          expect(`./runner -f spec/fixtures/valid.csv`).to eq("Please only use a text file\n")
         end
       end
     end
