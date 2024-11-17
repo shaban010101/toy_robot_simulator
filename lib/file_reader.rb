@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'operation_executor'
+require_relative 'config'
 
 # The FileReader reads a file and executes commands based on them
 class FileReader
@@ -33,7 +34,7 @@ class FileReader
       return false
     end
 
-    unless File.extname(file) == '.txt'
+    unless Config::SUPPORTED_FILE_TYPES.include?(File.extname(file))
       @output.puts('Please only use a text file')
       return false
     end

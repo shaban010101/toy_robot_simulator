@@ -45,4 +45,5 @@ class Config
     'RIGHT' => :right,
     'REPORT' => :report
   }.freeze
+  SUPPORTED_FILE_TYPES = %w[.txt].freeze
 end
