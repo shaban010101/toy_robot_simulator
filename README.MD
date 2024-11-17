@@ -1,7 +1,7 @@
 # Toy Robot Simulator
 
 ### Requirements
-* Ruby version 3.2.2
+Ruby version 3.2.2
 
 ### Setup
 Run `bundle install` in a terminal
@@ -29,7 +29,7 @@ MOVE
 REPORT
 ````
 
-Once you have your text file you can run it like this in your terminal `./runner --file sample.text`
+Once you have your text file you can run it like this in your terminal `./runner --file sample_long.text`
 
 Which will give you an output like this
 
@@ -48,4 +48,5 @@ as its the interface to the simulator.
 I seperated the project into a `Simulator` which moved the robot on a sqaure and reported the results. 
 I opted to store the coordinates on a two dimensional array as this best represented sqaure table and used `Matrix` to retrieve the results
 An `OperationExecutor` which is an interface to execute commands on the simulator and can be extended to receive commands in other ways such as CLI.
-A `FileReader` which reads a text file and executes commands on the `OperationExecutor`. Finally I put all the config into one class 
+A `FileReader` which reads a text file and executes commands on the `OperationExecutor`. 
+Finally I put all the config into one class and also used OptionParser to handle CLI input for the runner
