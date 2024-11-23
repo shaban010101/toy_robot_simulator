@@ -2,13 +2,23 @@
 
 require 'matrix'
 require_relative 'config'
+require_relative 'move'
+require_relative 'turn'
+require_relative 'validation'
 
 # Simulates a toy robots movement on a square
 class Simulator
   # Places the robot on a specified square on the board using x,y coordinates and a direction to face
   def place(x, y, facing)
-    return unless (0...Config::X_SIZE).to_a.include?(x) && (0...Config::Y_SIZE).to_a.include?(y)
-    return unless Config::VALID_DIRECTIONS.include?(facing)
+    unless Validation.legal_move?(x,y)
+      puts "Invalid move 'X: #{x} Y: #{y}'"
+      return
+    end
+
+    unless Validation.supported_direction?(facing)
+      puts "Invalid direction '#{facing}'"
+      return
+    end
 
     square[current_coordinates.first][current_coordinates.last] = Config::DEFAULT_VALUE if current_coordinates
     square[x][y] = Config::TOY
@@ -31,31 +41,19 @@ class Simulator
 
     current_coordinates
 
-    if [Config::NORTH, Config::SOUTH].include?(facing)
-      return unless valid_y_move?
-
-      square[x][y] = Config::DEFAULT_VALUE
-      square[x][projected_y] = Config::TOY
-    else
-      return unless valid_x_move?
-
-      square[x][y] = Config::DEFAULT_VALUE
-      square[projected_x][y] = Config::TOY
-    end
+    @square = Move.new(square, x, y, facing).call
   end
 
-  # turns the direction of the robot is facing to the left
   def left
     return unless @placed
 
-    @facing = Config::LEFT_DIRECTION[facing]
+    @facing = Turn.left(facing)
   end
 
-  # turns the direction of the robot is facing to the right
   def right
     return unless @placed
 
-    @facing = Config::RIGHT_DIRECTION[facing]
+    @facing = Turn.right(facing)
   end
 
   private
@@ -67,14 +65,10 @@ class Simulator
   end
 
   def square
-    @square ||= Array.new(Config::X_SIZE) { Array.new(Config::Y_SIZE).fill { Config::DEFAULT_VALUE } }
+    @square ||= Array.new(Config::X_SIZE) do
+      Array.new(Config::Y_SIZE).fill do
+        Config::DEFAULT_VALUE
+      end
+    end
   end
-
-  def projected_x = x.public_send(Config::FACE_INDEX_OPERATION[facing], 1)
-
-  def valid_x_move? = (0...Config::X_SIZE).to_a.include?(projected_x)
-
-  def projected_y = y.public_send(Config::FACE_INDEX_OPERATION[facing], 1)
-
-  def valid_y_move? = (0...Config::Y_SIZE).to_a.include?(projected_y)
 end

@@ -4,7 +4,8 @@ require 'spec_helper'
 require 'file_reader'
 
 RSpec.describe FileReader do
-  subject(:file_reader) { described_class.new(file, output: output) }
+  subject(:file_reader) { described_class.new(file, console_interface: console_interface) }
+  let(:console_interface) { ConsoleInterface.new(output: output) }
   let(:output) { StringIO.new }
 
   describe '#run' do

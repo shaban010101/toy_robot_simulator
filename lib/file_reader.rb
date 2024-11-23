@@ -5,9 +5,9 @@ require_relative 'config'
 
 # The FileReader reads a file and executes commands based on them
 class FileReader
-  def initialize(file, output: nil)
+  def initialize(file, console_interface: ConsoleInterface.new)
     @file = file
-    @output = output ||= $stdout
+    @console_interface = console_interface
   end
 
   # Uses a text file as input and reads its lines executing commands it knows
@@ -20,7 +20,7 @@ class FileReader
       inputs = line.split
       unless operation_executor.call(inputs)
         message = "Unrecognised command '#{inputs.join(" ")}' on line #{line_number}"
-        @output.puts(message)
+        @console_interface.output(message)
       end
     end
   end
@@ -31,17 +31,19 @@ class FileReader
 
   def valid_file?
     unless file && File.exist?(file)
-      @output.puts('Please enter a file which exists')
+      @console_interface.output('Please enter a file which exists')
       return false
     end
 
     unless Config::SUPPORTED_FILE_TYPES.include?(File.extname(file))
-      @output.puts('Please only use a text file')
+      @console_interface.output('Please only use a text file')
       return false
     end
 
     true
   end
 
-  def operation_executor = @operation_executor ||= OperationExecutor.new
+  def operation_executor
+    @operation_executor ||= OperationExecutor.new(console_interface: @console_interface)
+  end
 end

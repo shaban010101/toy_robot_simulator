@@ -2,15 +2,33 @@
 
 require_relative 'simulator'
 require_relative 'config'
+require_relative 'console_interface'
 
 # OperationExecutor executes commands based on the input it receives
 class OperationExecutor
   # Takes input as an array e.g. ["PLACE", "0,0,NORTH"] matches it with a known command
+
+  def initialize(console_interface: ConsoleInterface.new)
+    @console_interface = console_interface
+  end
+
   def call(input)
     @input = input
 
-    operation = Config::OPERATIONS.fetch(input.first) { return false }
-    public_send(operation) if operation
+    Config::OPERATIONS.fetch(input.first) { return false }
+
+    case input.first
+    when /^PLACE/
+      place
+    when /MOVE/
+      move
+    when /LEFT/
+      left
+    when /RIGHT/
+      right
+    when /^REPORT$/
+      report
+    end
   end
 
   # places the robot on the simulator
@@ -49,7 +67,7 @@ class OperationExecutor
   # Reports the current coordinates the robot is facing on the simulator
   def report
     execute_operation do
-      puts simulator.report unless simulator.report.nil?
+      @console_interface.output(simulator.report) unless simulator.report.nil?
     end
   end
 
